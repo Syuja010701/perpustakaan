@@ -68,6 +68,9 @@ class LoginController extends Controller
 
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+            if ($user->role('Administrator')) {
+                return redirect()->route('backend.home')->with('message', 'Anda Berhasil Login');
+            }
             return redirect()->route('frontend.home')->with('message', 'Anda Berhasil Login');
         } else {
             return redirect()->route('frontend.home')->with('message', 'Anda Gagal Login');

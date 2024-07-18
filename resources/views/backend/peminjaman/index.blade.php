@@ -4,6 +4,8 @@
     <div class="container-fluid pt-4 px-4">
         <div class="bg-secondary rounded h-100 p-4">
             <h6 class="mb-1">Data Peminjaman</h6>
+            <a href="{{ route('backend-peminjam-download-pdf') }}" class="btn btn-sm btn-success">Download
+                PDF</a>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -51,9 +53,9 @@
                                 <a href="{{ route('backend-pengembalian-peminjaman', $pinjam->id) }}"
                                     onclick="return confirm('Are you sure?')" class="btn btn-sm btn-success">Cek</a>
                             @endif
-
                         </td>
                     </tr>
+
                 @empty
                     <tr>
                         <td colspan="7" class="text-center">
@@ -63,6 +65,9 @@
                 @endforelse
             </tbody>
             </table>
+        </div>
+        <div class="float-right">
+            {{ $peminjaman->links() }}
         </div>
     </div>
     </div>

@@ -36,6 +36,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('pinjambuku/{id_buku}', 'Frontend\PinjamController@index')->name('frontend.pinjam');
     Route::get('list-pinjaman/{id}', 'Frontend\PinjamController@show')->name('frontend.list.pinjaman');
     Route::post('pinjam', 'Frontend\PinjamController@store')->name('frontend.pinjam.store');
+    Route::get('frontend/download-pdf', 'Frontend\PinjamController@downloadPDF')->name('frontend.download-pdf');
 
 
     // SEMUA YANG ADA DI DALAM GROUP MIDDLEWARE ITU HARUS MELALUI PROSES LOGIN
@@ -106,6 +107,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('show_peminjaman/{id}', 'Backend\PeminjamanBackendController@show')->name('backend-show-peminjaman');
         Route::get('pengembalian_peminjaman/{id}', 'Backend\PeminjamanBackendController@pengembalian')->name('backend-pengembalian-peminjaman');
         Route::get('delete-peminjaman/{id}', 'Backend\PeminjamanBackendController@destroy')->name('delete_peminjaman');
+        Route::get('download-pdf', 'Backend\PeminjamanBackendController@downloadPdf')->name('backend-peminjam-download-pdf');
 
         // Route Roles
         Route::resource('roles', RoleController::class);

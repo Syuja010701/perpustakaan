@@ -7,6 +7,7 @@ use App\Models\Konfigurasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class PinjamController extends Controller
 {
@@ -138,5 +139,22 @@ class PinjamController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function downloadPDF()
+    {
+        $peminjaman =
+            DB::table('detail_transakasi')
+            ->where('transaksi.created_by', auth()->user()->id)
+            ->select('detail_transakasi.id', 'detail_transakasi.updated_at', 'transaksi.total', 'detail_transakasi.created_at', 'peminjam.nama', 'transaksi.tanggal_kembali', 'transaksi.status', 'judul',  'telat_pengembalian', 'denda', 'id_transaksi')
+            ->join('transaksi', 'transaksi.id', 'detail_transakasi.id_transaksi')
+            ->join('buku', 'buku.id', 'detail_transakasi.id_buku')
+            ->join('peminjam', 'peminjam.id', 'transaksi.id_peminjam')
+            ->get();
+        $pdf = PDF::loadView('frontend.pinjaman.pdf', compact('peminjaman'))->output();
+        return response()->streamDownload(
+            fn () => print($pdf),
+            "list-pinjaman.pdf"
+        );
     }
 }

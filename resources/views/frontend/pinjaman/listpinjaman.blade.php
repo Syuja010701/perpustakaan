@@ -8,7 +8,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title text-center"><strong>Daftar Table Pinjaman</strong></h4>
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title "><strong>Daftar Table Pinjaman</strong></h4>
+                            <a href="{{ route('frontend.download-pdf') }}" class="btn btn-outline-primary">Download</a>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered no-wrap mt-4">
                                 <thead>
@@ -28,7 +31,6 @@
                                     @forelse($detail_transaksi as $detail_trans)
                                         <tr>
 
-                                            <!-- <th scope="row">{{ $loop->iteration }}</th> -->
                                             <td class="text-center">{{ $detail_transaksi->firstItem() + $loop->index }}</td>
                                             <td>{{ $detail_trans->judul }}</td>
                                             <td class="text-center">{{ $detail_trans->telat_pengembalian }}</td>
@@ -40,7 +42,6 @@
                                             <td class="text-center">{{ $detail_trans->created_at }}</td>
                                             <td class="text-center">
                                                 {{ $detail_trans->status === 1 ? $detail_trans->updated_at : '' }}</td>
-
                                         </tr>
                                     @empty
                                     @endforelse

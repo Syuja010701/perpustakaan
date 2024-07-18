@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PeminjamanBackendController extends Controller
 {
@@ -27,6 +28,7 @@ class PeminjamanBackendController extends Controller
             ->join('peminjam', 'peminjam.id', 'transaksi.id_peminjam')
             ->orderBy('transaksi.id', 'DESC')
             ->paginate(5);
+
 
         return view('backend.peminjaman.index', compact('peminjaman'));
     }
@@ -69,5 +71,22 @@ class PeminjamanBackendController extends Controller
         ]);
 
         return redirect()->route('backend-index-transaksi')->with('message', 'Buku berhasil dikembalikan.');
+    }
+
+    public function downloadPdf()
+    {
+        $peminjaman =
+            DB::table('detail_transakasi')
+            ->select('detail_transakasi.id', 'detail_transakasi.updated_at', 'transaksi.total', 'detail_transakasi.created_at', 'peminjam.nama', 'transaksi.tanggal_kembali', 'transaksi.status', 'judul',  'telat_pengembalian', 'denda', 'id_transaksi')
+            ->join('transaksi', 'transaksi.id', 'detail_transakasi.id_transaksi')
+            ->join('buku', 'buku.id', 'detail_transakasi.id_buku')
+            ->join('peminjam', 'peminjam.id', 'transaksi.id_peminjam')
+            ->get();
+        $pdf = PDF::loadView('backend.peminjaman.pdf', compact('peminjaman'))->output();
+        return response()->streamDownload(
+            fn () => print($pdf),
+            "list-pinjaman.pdf"
+        );
+        // return view('backend.peminjaman.pdf', com    pact('peminjaman'));
     }
 }
