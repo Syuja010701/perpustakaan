@@ -33,11 +33,10 @@ class PenulisController extends Controller
     }
     public function store(PenulisRequest $request)
     {
-        DB::beginTransaction();
 
         try {
             // Create a new user
-            $user = DB::table('users')->create([
+            $user = User::create([
                 'name' => $request->nama,
                 'username' => $request->username,
                 'email' => $request->email,
@@ -46,7 +45,6 @@ class PenulisController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
             $user->assignRole('peminjam');
 
             // Create a new penulis related to the user

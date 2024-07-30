@@ -35,6 +35,8 @@ class PenulisRequest extends FormRequest
             'twitter' => 'nullable|string',
             'linked_in' => 'nullable|string',
             'blog' => 'nullable|string',
+            'username' => 'required|string|unique:users,username',
+            'email' => 'required|email|unique:users,email',
             'youtube' => 'nullable|string',
         ];
     }
@@ -45,6 +47,11 @@ class PenulisRequest extends FormRequest
             'nama.required' => 'Nama wajib diisi.',
             'nama.max' => 'Panjang teks untuk Nama maksimal :max karakter.',
             'alamat.required' => 'Alamat wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Masukkan format email yang valid.',
+            'email.unique' => 'Email sudah digunakan.',
             'alamat.max' => 'Panjang teks untuk Alamat maksimal :max karakter.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date' => 'Tanggal lahir harus dalam format tanggal yang valid.',
